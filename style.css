@@ -1,0 +1,26 @@
+.messages{
+		position:fixed;
+		right:0px;
+		width:400px;
+		top:0px;
+		height:400px;
+		overflow-y:auto;
+		border:1px solid red;
+}
+.messages li{
+		max-width:100%;
+}
+.backpack{
+		background-color:#2f2f2f;
+		color:#fff;
+		padding:15px;
+		width:400px;
+		margin:10px 0;
+}
+.actions{
+	background-color:#2f2f2f;
+	margin:10px 0;
+	color:#fff;
+	padding:15px;
+	width:400px;
+}

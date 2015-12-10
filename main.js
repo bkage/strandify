@@ -8,6 +8,17 @@
 			items:[]
 				
 		};
+
+		//PLAYER STATUS
+		var playerStatus={
+			hp:40,
+			stamina:100
+		};
+
+		//WORLD STATUS
+		var worldStatus={
+			day:1
+		};
 		
 		
 		//ITEMS CONSTRUCT
@@ -61,9 +72,17 @@
 		}
 		
 		//GENERAL OBJECTS
+		/*Constructor:
+
+			object_name --> typeoff string
+			object_weight --> typeoff number
+			object_category --> typeoff string
+			object_itemId --> typeoff number
+
+		*/
 		var apple=new item('Apple',0.2,'food',1),
 		wood=new item('Wood',2,'raw',2),
-		stone=news item('Stone',5,'raw',3);
+		stone=new item('Stone',5,'raw',3);
 		
 		var objects=[apple,wood,stone];
 			
@@ -97,7 +116,7 @@
 			},
 			update:function(){
 				$('.actions button, .items button').click(function(){
-						strandify.updateBackpack();
+						gui.updateBackpack();
 						bind.rebind();
 				})	;
 			},
@@ -134,7 +153,7 @@
 						
 						helpers.message(itemToDrop.name+' dropped');
 						
-						strandify.updateBackpack();
+						gui.updateBackpack();
 						bind.rebind();
 						
 					});
@@ -165,26 +184,11 @@
 			}
 		};
 		
-		
-		
-		//GENERAL APP
-		var strandify={
-				
-			init:function(){
-					this.showBackpack();
-					console.log('init Backpack show successfull');
-					bind.init();
-					console.log('binding UI successfull');
-					
-					console.log('App loaded successfully!');
-			},
-			showBackpack:function(){
-				//show capacity
-				$('.backpack .capacity span').html(parseFloat(JSON.stringify(backpack.capacity)).toFixed(2));
-				
-			},
+		//GUI FUNCTIONS
+		var gui={
 			updateBackpack:function(){
-					$('.backpack .items table tr').each(function(){
+
+					$('.backpack .items table tr').each(function(){		//group and remove duplicates. Function removes same records
 						var objectItem=helpers.getItemFromBackpack(parseInt($(this).attr('data-item-id')));
 						//remove all existing elements
 						if($(this).hasClass('single')){
@@ -193,7 +197,6 @@
 						
 					});
 					//show capacity
-					backpack.capicity=parseFloat(backpack.capacity).toFixed(2);
 					$('.backpack .capacity span').html(parseFloat(JSON.stringify(backpack.capacity)).toFixed(2));
 					//append new item's list
 					for(var item in backpack.items){
@@ -203,6 +206,19 @@
 					}
 					
 			}
+		}
+		
+		//GENERAL APP
+		var strandify={
+				
+			init:function(){
+					gui.updateBackpack();
+					bind.init();
+					console.log('binding UI successfull');
+					
+					console.log('App loaded successfully!');
+			}
+			
 			
 		};
 		

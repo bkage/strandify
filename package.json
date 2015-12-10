@@ -1,0 +1,25 @@
+{
+  "name": "strandify",
+  "version": "1.0.0",
+  "description": "Simple game to learn javascript",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkage/strandify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bkage/strandify/issues"
+  },
+  "homepage": "https://github.com/bkage/strandify#readme",
+  "devDependencies": {
+    "bower": "^1.7.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-sass": "^0.9.2"
+  }
+}

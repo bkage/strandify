@@ -1,3 +1,19 @@
+*{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+h2{
+	margin:5px 0;
+}
+.container{
+	width:840px;
+}
+.container:after{
+	content:"";
+	clear:both;
+	display:table;
+}
 .messages{
 		position:fixed;
 		right:0px;
@@ -15,9 +31,11 @@
 		color:#fff;
 		padding:15px;
 		width:400px;
-		margin:10px 0;
+		margin:10px;
+		float:left;
 }
 table{
+	width:100%;
 	border:1px solid #fff;
 }
 table tr{
@@ -33,10 +51,11 @@ table tr td:first-child{
 }
 .actions{
 	background-color:#2f2f2f;
-	margin:10px 0;
+	margin:10px;
 	color:#fff;
 	padding:15px;
 	width:400px;
+	float:left;
 }
 .player-status{
 	position:relative;
@@ -44,13 +63,16 @@ table tr td:first-child{
 	color:#fff;
 	padding:15px;
 	width:400px;
-	margin:10px 0;
+	margin:10px;
+	float:left;
 }
 .world-status{
-	margin:10px 0;
+	margin:10px;
 	width:400px;
 	position:relative;
 	background-color:#2f2f2f;
 	color:#fff;
 	padding:15px;
+	float:left;
+	height:131px;
 }

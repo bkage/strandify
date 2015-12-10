@@ -12,7 +12,9 @@
 		//PLAYER STATUS
 		var playerStatus={
 			hp:40,
-			stamina:100
+			defaultHp:40,
+			stamina:100,
+			defaultStamina:100
 		};
 
 		//WORLD STATUS
@@ -95,6 +97,36 @@
 									objects[single].addToBackpack(quantityRand);
 								}
 						}
+				},
+				searchApple:function(){
+					var staminaCost=5;
+					if(playerStatus.stamina>=staminaCost){
+						this.getItem(1);
+						playerStatus.stamina-=staminaCost;	
+						gui.updatePlayerStatus();
+					}
+					else{
+						helpers.message('You don\'t have enought stamina. Get some rest.');
+					}
+				},
+				chopWood:function(){
+					var staminaCost=10;
+					if(playerStatus.stamina>=staminaCost){
+						this.getItem(2);
+						playerStatus.stamina-=staminaCost;	
+						gui.updatePlayerStatus();
+					}
+					else{
+						helpers.message('You don\'t have enought stamina. Get some rest.');
+					}
+				},
+				goToSleep:function(){
+					playerStatus.stamina=playerStatus.defaultStamina;
+					worldStatus.day+=1;
+					helpers.message('You slept well');
+
+					gui.updatePlayerStatus();
+					gui.updateWorldStatus();
 				}
 		}
 		
@@ -105,7 +137,7 @@
 				
 				this.getApple();
 				this.getWood();
-				this.myItems();
+				this.goToSleep();
 				
 				
 				this.update();
@@ -122,18 +154,18 @@
 			},
 			getApple:function(){
 					$('#getApple').click(function(){
-							actions.getItem(1);
+							actions.searchApple();
 					});
 			},
 			getWood:function(){
 					$('#getWood').click(function(){
-						actions.getItem(2);	
+						actions.chopWood();	
 					});
 			},
-			myItems:function(){
-					$('#myItems').click(function(){
-						helpers.message(JSON.stringify(backpack));
-					});
+			goToSleep:function(){
+				$('#goToSleep').click(function(){
+					actions.goToSleep();
+				});
 			},
 			dropObjectFromBackpack:function(){
 					$('.remove').click(function(){
@@ -186,6 +218,11 @@
 		
 		//GUI FUNCTIONS
 		var gui={
+			init:function(){
+				this.updateBackpack();
+				this.updateWorldStatus();
+				this.updatePlayerStatus();
+			},
 			updateBackpack:function(){
 
 					$('.backpack .items table tr').each(function(){		//group and remove duplicates. Function removes same records
@@ -205,6 +242,13 @@
 						$('.backpack .items table').append('<tr class="single" data-item-id="'+item.itemId+'"><td>'+item.name+'</td><td>'+item.weight+'</td><td>'+item.quantity+'</td><td><button class="remove" data-item-id='+item.itemId+' data-quantity=5>Drop 5</button><button class="remove" data-item-id='+item.itemId+' data-quantity=1>Drop 1</button></td></tr>');
 					}
 					
+			},
+			updateWorldStatus:function(){
+				$('#world-day span').html(worldStatus.day);
+			},
+			updatePlayerStatus:function(){
+				$('#player-hp span').html(playerStatus.hp);
+				$('#player-stamina span').html(playerStatus.stamina);
 			}
 		}
 		
@@ -215,7 +259,9 @@
 					gui.updateBackpack();
 					bind.init();
 					console.log('binding UI successfull');
-					
+					gui.init();
+					console.log('GUI loaded successfully');
+
 					console.log('App loaded successfully!');
 			}
 			

@@ -62,9 +62,10 @@
 		
 		//GENERAL OBJECTS
 		var apple=new item('Apple',0.2,'food',1),
-		wood=new item('Wood',2,'materials',2);
+		wood=new item('Wood',2,'raw',2),
+		stone=news item('Stone',5,'raw',3);
 		
-		var objects=[apple,wood];
+		var objects=[apple,wood,stone];
 			
 		//ACTIONS
 		var actions={

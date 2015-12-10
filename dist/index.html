@@ -12,7 +12,7 @@
 		</div >
 		
 		
-		<div class="player-status">
+		<div class="player-status game-block">
 			<h2>Player status</h2>
 			<ul>
 				<li id="player-hp">Hp: <span></span></li>
@@ -20,24 +20,31 @@
 			</ul>
 		</div >
 
-		<div class="world-status">
+		<div class="world-status game-block">
 			<h2>World status</h2>
 			<ul>
 				<li id="world-day">Day: <span></span></li>
 			</ul>
 		</div>
 		
-		<div class="actions">
+		<div class="actions game-block">
 				<h2>Actions</h2>
 				<button id="getApple">Search for apples</button >
 				<button id="getWood">Chop wood</button >
 				<button id="goToSleep">Go to sleep</button>
 				<br/>
-				<button id="saveGame">Save game</button>
-				<button id="loadGame">Load game</button>
+				<p class="game-options-drop">Game options</p>
+				<div class="game-options">
+					<button id="saveGame">Save game</button>
+					<button id="loadGame">Load game</button>
+				</div>
+				<p class="builder-drop">Build:</p>
+				<div class="builder">
+					<button id="buildBonfire">Bonfire</button>
+				</div>
 		</div >
 		
-		<div class="backpack">
+		<div class="backpack game-block">
 			<h2>Storage</h2>
 			<p class="capacity">Capacity:<span></span></p>
 			<p>Items</p >
@@ -51,11 +58,17 @@
 				</tr>
 			</table></div >
 		</div>
+
+		<div class="structures game-block">
+			<h2>Structures</h2>
+			<ul class="structures-list">
+				
+			</ul>
+		</div>
 	</div>
 	
 	
-	<script src="bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+	<script src="plugins.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>

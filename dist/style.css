@@ -6,6 +6,12 @@
 h2{
 	margin:5px 0;
 }
+button{
+	background-color:#1f1f1f;
+	color:#fff;
+	border:1px solid #fff;
+	cursor:pointer;
+}
 .container{
 	width:840px;
 }
@@ -26,14 +32,6 @@ h2{
 .messages li{
 		max-width:100%;
 }
-.backpack{
-		background-color:#2f2f2f;
-		color:#fff;
-		padding:15px;
-		width:400px;
-		margin:10px;
-		float:left;
-}
 table{
 	width:100%;
 	border:1px solid #fff;
@@ -49,15 +47,7 @@ table tr td{
 table tr td:first-child{
 	border:none;
 }
-.actions{
-	background-color:#2f2f2f;
-	margin:10px;
-	color:#fff;
-	padding:15px;
-	width:400px;
-	float:left;
-}
-.player-status{
+.game-block{
 	position:relative;
 	background-color:#2f2f2f;
 	color:#fff;
@@ -67,12 +57,18 @@ table tr td:first-child{
 	float:left;
 }
 .world-status{
-	margin:10px;
-	width:400px;
-	position:relative;
-	background-color:#2f2f2f;
-	color:#fff;
-	padding:15px;
-	float:left;
 	height:131px;
+}
+.game-options{
+	width:100%;
+	display:none;
+	background-color:#1f1f1f;
+	padding:10px;
+}
+.game-options-drop{
+	cursor:pointer;
+	font-weight:700;
+}
+.structures{
+
 }

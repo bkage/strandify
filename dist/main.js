@@ -5,6 +5,7 @@
 		var backpack={
 			
 			capacity:10,
+			maxCapacity:10,
 			items:[]
 				 
 		};
@@ -12,15 +13,20 @@
 		//PLAYER STATUS
 		var playerStatus={
 			hp:20,
-			defaultHp:40,
+			maxHp:40,
 			stamina:100,
-			defaultStamina:100
+			maxStamina:100
 		};
 
 		//WORLD STATUS
 		var worldStatus={
 			day:1
 		};
+
+		//STRUCTURES 
+		var structures={
+
+		}
 		
 		
 		//ITEMS CONSTRUCT
@@ -121,7 +127,7 @@
 					}
 				},
 				goToSleep:function(){
-					playerStatus.stamina=playerStatus.defaultStamina;
+					playerStatus.stamina=playerStatus.maxStamina;
 					worldStatus.day+=1;
 					helpers.message('You slept well');
 
@@ -160,6 +166,7 @@
 
 				
 			}
+
 		};
 
 		//BINDING TO UI
@@ -172,6 +179,7 @@
 				this.goToSleep();
 				this.saveGame();
 				this.loadGame();
+				this.showGameOptions();
 				
 				this.update();
 			},
@@ -208,6 +216,11 @@
 			loadGame:function(){
 				$('#loadGame').click(function(){
 					config.loadGame();
+				});
+			},
+			showGameOptions:function(){
+				$('.game-options-drop').click(function(){
+					$('.game-options').stop(true).slideToggle();
 				});
 			},
 			dropObjectFromBackpack:function(){

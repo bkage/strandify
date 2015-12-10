@@ -6,12 +6,12 @@
 			
 			capacity:10,
 			items:[]
-				
+				 
 		};
 
 		//PLAYER STATUS
 		var playerStatus={
-			hp:40,
+			hp:20,
 			defaultHp:40,
 			stamina:100,
 			defaultStamina:100

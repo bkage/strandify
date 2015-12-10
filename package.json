@@ -22,7 +22,9 @@
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-express": "^1.4.1",
     "grunt-open": "^0.2.3",
-    "grunt-serve": "^0.1.6"
+    "grunt-serve": "^0.1.6",
+    "matchdep": "^1.0.0"
   }
 }

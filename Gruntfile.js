@@ -1,28 +1,36 @@
 
 module.exports=function(grunt){
-		grunt.initConfig({
-			serve: {
+	// Load Grunt tasks declared in the package.json file
+	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+	
+	grunt.initConfig({
+		express: {
+			all: {
 				options: {
+					bases: [__dirname],
 					port: 9000,
-					tasks:['open:dev','watch']
-				}
-			},
-			open : {
-				dev : {
-					path: 'http://localhost:9000/index.html'
-				}
-			},
-			watch: {
-				js: {
-					files: [ 'main.js'],
-					tasks:[]
+				hostname: '0.0.0.0',
+					livereload: true
 				}
 			}
-		});
+		},
+		open : {
+			all : {
+				path: 'http://localhost:<%= express.all.options.port%>'
+			}
+		},
+		watch: {
+			js: {
+				files: [ 'index.html','main.js'],
+				options:{
+					livereload:true	,
+					spawn:false
+				}
+			}
+		}
+	});
+	
+	grunt.registerTask('default', ['express','open','watch']);
 		
-		grunt.registerTask('default', ['serve']);
-		
-		grunt.loadNpmTasks('grunt-contrib-watch');
-		grunt.loadNpmTasks('grunt-serve');
-		grunt.loadNpmTasks('grunt-open');
+
 };

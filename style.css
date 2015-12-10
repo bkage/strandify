@@ -18,8 +18,8 @@ h2{
 		position:fixed;
 		right:0px;
 		width:400px;
-		top:0px;
-		height:400px;
+		bottom:0px;
+		height:200px;
 		overflow-y:auto;
 		border:1px solid red;
 }

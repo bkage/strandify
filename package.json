@@ -25,6 +25,7 @@
     "grunt-express": "^1.4.1",
     "grunt-open": "^0.2.3",
     "grunt-serve": "^0.1.6",
+    "jquery.cookie": "^1.4.1",
     "matchdep": "^1.0.0"
   }
 }

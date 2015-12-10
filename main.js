@@ -130,6 +130,38 @@
 				}
 		}
 		
+
+		//GENERAL USER OPTIONS (like save,reset etc)
+		var config={
+			saveGame:function(){
+				var data={
+					dataBackpack:backpack,
+					dataPlayerStatus:playerStatus,
+					dataWorldStatus:worldStatus
+				}
+				$.cookie('saveData',JSON.stringify(data));
+				helpers.message('Game saved')
+			},
+			loadGame:function(){
+				
+				if(typeof $.cookie('saveData')!=='undefined'){
+					var loadedData=JSON.parse($.cookie('saveData'));	
+					backpack=loadedData.dataBackpack;
+					playerStatus=loadedData.dataPlayerStatus;
+					worldStatus=loadedData.dataWorldStatus;
+
+					gui.init();
+
+					helpers.message('Game loaded');
+				}
+				else{
+					helpers.message('No save games found')
+				}
+
+				
+			}
+		};
+
 		//BINDING TO UI
 		//this binds buttons from UI to functions
 		var bind={
@@ -138,7 +170,8 @@
 				this.getApple();
 				this.getWood();
 				this.goToSleep();
-				
+				this.saveGame();
+				this.loadGame();
 				
 				this.update();
 			},
@@ -165,6 +198,16 @@
 			goToSleep:function(){
 				$('#goToSleep').click(function(){
 					actions.goToSleep();
+				});
+			},
+			saveGame:function(){
+				$('#saveGame').click(function(){
+					config.saveGame();
+				});
+			},
+			loadGame:function(){
+				$('#loadGame').click(function(){
+					config.loadGame();
 				});
 			},
 			dropObjectFromBackpack:function(){
@@ -263,6 +306,7 @@
 					console.log('GUI loaded successfully');
 
 					console.log('App loaded successfully!');
+					helpers.message('You wake up in the island. Stranded...')
 			}
 			
 			

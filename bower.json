@@ -1,0 +1,15 @@
+{
+  "name": "strandify",
+  "description": "Simple game to learn javascript",
+  "main": "main.js",
+  "authors": [
+    "bkage <crimman@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/bkage/strandify",
+  "moduleType": [],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~2.1.4"
+  }
+}

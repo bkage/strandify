@@ -13,39 +13,40 @@ button{
 	cursor:pointer;
 }
 .container{
-	width:840px;
-}
-.container:after{
-	content:"";
-	clear:both;
-	display:table;
+	margin-left:140px;
+	&:after{
+		content:"";
+		clear:both;
+		display:table;	
+	}
 }
 .messages{
 		position:fixed;
 		right:0px;
 		width:400px;
-		bottom:0px;
+		top:0px;
 		height:200px;
 		overflow-y:auto;
 		border:1px solid red;
+		li{
+			max-width:100%;	
+		}
 }
-.messages li{
-		max-width:100%;
-}
+
 table{
 	width:100%;
 	border:1px solid #fff;
-}
-table tr{
-	border-top:1px solid #fff;
-}
-table tr td{
-	border-left:1px solid #fff;
-	text-align:center;
-	padding:5px;
-}
-table tr td:first-child{
-	border:none;
+	tr{
+		border-top:1px solid #fff;
+		td{
+			border-left:1px solid #fff;
+			text-align:center;
+			padding:5px;
+			&:first-child{
+				border:none;
+			}
+		}
+	}
 }
 .game-block{
 	position:relative;
@@ -53,8 +54,8 @@ table tr td:first-child{
 	color:#fff;
 	padding:15px;
 	width:400px;
-	margin:10px;
-	float:left;
+	margin:10px 0;
+	display:block;
 }
 .world-status{
 	height:131px;
@@ -69,6 +70,26 @@ table tr td:first-child{
 	cursor:pointer;
 	font-weight:700;
 }
-.structures{
-
+.actions{
+	position:fixed;
+	left:0;
+	top:0;
+	margin:0;
+	text-align:center;
+	width:150px;
+	padding-bottom:100%;
+	margin-bottom:-100%;
+}
+.player-status{
+	width:400px;
+	margin-top:0;
+	h2{
+		display:inline-block;
+	}
+	ul{
+		display:inline-block;
+		li{
+			display:inline-block;
+		}
+	}
 }

@@ -25,14 +25,25 @@ module.exports=function(grunt){
 		    dest: 'dist/index.html',
 		  },
 		  css:{
-		  	src: 'source/style.css',
-		    dest: 'dist/style.css',
+		  	src: 'source/css/style.css',
+		    dest: 'dist/css/style.css',
 		  }
+		},
+		sass:{
+			dist: {
+		    files: [{
+		    	expand: true,
+		        cwd: 'source/css',
+		        src: ['*.scss'],
+		        dest: 'dist/css',
+		        ext: '.css'
+		      }]
+		    }
 		},
 		watch: {
 			js: {
-				files: [ 'index.html','main.js'],
-				tasks:['concat','copy'],
+				files: [ 'source/index.html','source/js/*.js','source/css/*.scss'],
+				tasks:['concat','copy','sass'],
 				options:{
 					livereload:true	,
 					spawn:false
@@ -41,17 +52,18 @@ module.exports=function(grunt){
 		},
 		concat:{
 			main: {
-		      src: ['source/main.js',],
-		      dest: 'dist/main.js',
+		      src: ['source/js/app.js'],
+		      dest: 'dist/js/main.js',
 		    },
 		    plugins:{
-		    	src:['bower_components/jquery/dist/jquery.min.js','bower_components/jquery.cookie/jquery.cookie.js'],
-		    	dest:'dist/plugins.js',
+		    	src:['bower_components/jquery/dist/jquery.min.js',
+		    	'bower_components/jquery.cookie/jquery.cookie.js'],
+		    	dest:'dist/js/plugins.js',
 		    },
 		}
 	});
 	
-	grunt.registerTask('default', ['copy','concat','express','open','watch']);
+	grunt.registerTask('default', ['copy','concat','sass','express','open','watch']);
 		
 
 };

@@ -1,6 +1,7 @@
 (function(){
 		'use strict';
 		
+		
 		//BACKPACK STRUCTURE
 		var backpack={
 			
@@ -12,9 +13,9 @@
 
 		//PLAYER STATUS
 		var playerStatus={
-			hp:20,
+			hp:40,
 			maxHp:40,
-			stamina:100,
+			stamina:100, 
 			maxStamina:100
 		};
 
@@ -24,10 +25,9 @@
 		};
 
 		//STRUCTURES 
-		var structures={
+		var playerStructures={
 
-		}
-		
+		};
 		
 		//ITEMS CONSTRUCT
 		function item(itemName, itemWeight, itemCategory, itemId){
@@ -78,7 +78,7 @@
 						}
 				}
 		}
-		
+
 		//GENERAL OBJECTS
 		/*Constructor:
 
@@ -93,7 +93,53 @@
 		stone=new item('Stone',5,'raw',3);
 		
 		var objects=[apple,wood,stone];
-			
+
+		//STRUCTURE LIST
+		var structureList={
+			bonfire:{
+				materialCost:[
+					{
+						materialId:1,
+						quantity:5
+					},
+				],
+			}
+		};
+
+
+
+		//STRUCTURES BUILER
+		var builder={
+			build:function(buildingStructure){
+				console.log(typeof playerStructures.bonfire);
+				if(typeof playerStructures.bonfire!=undefined){	//check if already built
+					var building=true;	//building state
+					
+					for(var single in buildingStructure.materialCost){	//check for available materials
+						
+						var singleMaterial=buildingStructure.materialCost[single];	//iteration alias
+						var backpackItem=helpers.getItemFromBackpack(singleMaterial.materialId);	//materials to compare
+
+						if(singleMaterial.quantity>backpackItem.quantity || backpackItem===false){
+							building=false;	//deny building state
+							helpers.message('Not enough '+backpackItem.name);
+						}
+						else{	//remove materials from backpack
+							var backpackItemIndex=helpers.searchBackpackFor(singleMaterial.materialId);
+							backpack.items[backpackItemIndex].quantity-=singleMaterial.quantity;
+						}
+					}
+					if(building){
+						playerStructures.bonfire=true;
+						helpers.message('building complete');
+					}
+					
+				}
+			},
+		};
+
+
+
 		//ACTIONS
 		var actions={
 				getItem:function(itemId){
@@ -133,10 +179,9 @@
 
 					gui.updatePlayerStatus();
 					gui.updateWorldStatus();
-				}
+				},
 		}
 		
-
 		//GENERAL USER OPTIONS (like save,reset etc)
 		var config={
 			saveGame:function(){
@@ -167,7 +212,7 @@
 				
 			}
 
-		};
+		};	
 
 		//BINDING TO UI
 		//this binds buttons from UI to functions
@@ -180,6 +225,7 @@
 				this.saveGame();
 				this.loadGame();
 				this.showGameOptions();
+				this.buildBonfire();
 				
 				this.update();
 			},
@@ -223,6 +269,11 @@
 					$('.game-options').stop(true).slideToggle();
 				});
 			},
+			buildBonfire:function(){
+				$('#buildBonfire').click(function(){
+					builder.build(structureList.bonfire);
+				});
+			},
 			dropObjectFromBackpack:function(){
 					$('.remove').click(function(){
 						var itemToDropId=parseInt($(this).attr('data-item-id')),
@@ -246,7 +297,7 @@
 						
 					});
 			}
-		};
+		};	
 		
 		//HELPER FUNCTIONS
 		//general develop helper functions
@@ -270,7 +321,7 @@
 				}
 				return false;
 			}
-		};
+		};	
 		
 		//GUI FUNCTIONS
 		var gui={
@@ -306,8 +357,8 @@
 				$('#player-hp span').html(playerStatus.hp);
 				$('#player-stamina span').html(playerStatus.stamina);
 			}
-		}
-		
+		};	
+
 		//GENERAL APP
 		var strandify={
 				
@@ -324,9 +375,10 @@
 			
 			
 		};
-		
 		//APP START
 		strandify.init();
+		
+		
 			
 	//HELP GENERAL FUNCTIONS
 	function getRandomIntInclusive(min, max) {

@@ -25,9 +25,11 @@
 		};
 
 		//STRUCTURES 
-		var playerStructures={
+		var playerStructures=[
 
-		};
+		];
+
+		
 		
 		//ITEMS CONSTRUCT
 		function item(itemName, itemWeight, itemCategory, itemId){
@@ -62,19 +64,32 @@
 				this.removeFromBackpack=function(quantity){
 						var searcher=helpers.searchBackpackFor(this.itemId);
 						if(searcher){	//search for this object in backpack
+
+							//Restore capacity
+							//if there are less elements then dropping, restore only quantiity of elements
+							if(quantity<=this.quantity){
+									backpack.capacity+=quantity*this.weight;
+							}
+							else{
+									backpack.capacity+=this.quantity*this.weight;
+							}
+
 							//if quantity in backpack is less then we want to remove, then zero it
 							if(backpack.items[searcher].quantity>quantity){
-							backpack.items[searcher].quantity-=quantity;
+								backpack.items[searcher].quantity-=quantity;
 							}
 							else{
 								backpack.items[searcher].quantity=0;
 							}
-							if(backpack.items[searcher].quantity<=0) {
+							//remove from backpack.items array
+							if(backpack.items[searcher].quantity<=0) {	
 									backpack.items.splice(searcher,1);
 							}
+
+							helpers.message(this.name+' dropped');
 						}
 						else{
-								helpers.message('You have no '+this.name+' in backpack');
+							helpers.message('You have no '+this.name+' in backpack');
 						}
 				}
 		}
@@ -95,45 +110,61 @@
 		var objects=[apple,wood,stone];
 
 		//STRUCTURE LIST
-		var structureList={
-			bonfire:{
-				materialCost:[
-					{
-						materialId:1,
-						quantity:5
-					},
-				],
-			}
-		};
+		function singleStructure(buildingName,buildingId,materialArray){
+			this.name=buildingName;
+			this.structureId=buildingId;
+			this.materialCost=materialArray;
+		}
+
+		var bonfire=new singleStructure('bonfire',1,[{materialId:2,quantity:2}]),
+		woodenStorage=new singleStructure('Wooden storage',2,[{materialId:2,quantity:5}]);
+
+		var structureList=[bonfire,woodenStorage];
 
 
 
 		//STRUCTURES BUILER
 		var builder={
-			build:function(buildingStructure){
-				console.log(typeof playerStructures.bonfire);
-				if(typeof playerStructures.bonfire!=undefined){	//check if already built
+			build:function(buildingStructure,staminaCost){
+				if(playerStructures.indexOf(buildingStructure.name)===-1){	//check if already built
 					var building=true;	//building state
-					
-					for(var single in buildingStructure.materialCost){	//check for available materials
-						
-						var singleMaterial=buildingStructure.materialCost[single];	//iteration alias
-						var backpackItem=helpers.getItemFromBackpack(singleMaterial.materialId);	//materials to compare
+					if(staminaCost<=playerStatus.stamina){
+						for(var index in buildingStructure.materialCost){	//check for available materials
+							
+							var singleMaterial=buildingStructure.materialCost[index];	//iteration alias
+							var backpackItem=helpers.getItemFromBackpack(singleMaterial.materialId);	//materials to compare
 
-						if(singleMaterial.quantity>backpackItem.quantity || backpackItem===false){
-							building=false;	//deny building state
-							helpers.message('Not enough '+backpackItem.name);
+							if(singleMaterial.quantity>backpackItem.quantity || backpackItem===false){
+								building=false;	//deny building state
+								helpers.message('Not enough ');
+							}
+							else{	//remove materials from backpack
+
+								var backpackItemIndex=helpers.searchBackpackFor(singleMaterial.materialId);
+								backpack.items[backpackItemIndex].removeFromBackpack(singleMaterial.quantity);
+							}
 						}
-						else{	//remove materials from backpack
-							var backpackItemIndex=helpers.searchBackpackFor(singleMaterial.materialId);
-							backpack.items[backpackItemIndex].quantity-=singleMaterial.quantity;
+						if(building){	//enought materials, check for stamina
+
+								playerStructures.push(buildingStructure.name);	//add building to playerStructure array
+								gui.updatePlayerStructures();
+								
+								playerStatus.stamina-=staminaCost;
+								gui.updatePlayerStatus();
+
+								gui.updateBackpack();
+
+								helpers.message('building complete');
+							
 						}
 					}
-					if(building){
-						playerStructures.bonfire=true;
-						helpers.message('building complete');
+					else{
+						helpers.message('Not enough stamina. Need '+staminaCost);
 					}
 					
+				}
+				else{
+					helpers.message('You already have '+buildingStructure.name);
 				}
 			},
 		};
@@ -188,7 +219,8 @@
 				var data={
 					dataBackpack:backpack,
 					dataPlayerStatus:playerStatus,
-					dataWorldStatus:worldStatus
+					dataWorldStatus:worldStatus,
+					dataStructures:playerStructures,
 				}
 				$.cookie('saveData',JSON.stringify(data));
 				helpers.message('Game saved')
@@ -200,8 +232,10 @@
 					backpack=loadedData.dataBackpack;
 					playerStatus=loadedData.dataPlayerStatus;
 					worldStatus=loadedData.dataWorldStatus;
+					playerStructures=loadedData.dataStructures;
 
 					gui.init();
+					bind.rebind();
 
 					helpers.message('Game loaded');
 				}
@@ -226,7 +260,8 @@
 				this.loadGame();
 				this.showGameOptions();
 				this.buildBonfire();
-				
+				this.buildWoodenStorage();
+
 				this.update();
 			},
 			rebind:function(){	//Rebind dynamic buttons on event
@@ -271,7 +306,14 @@
 			},
 			buildBonfire:function(){
 				$('#buildBonfire').click(function(){
-					builder.build(structureList.bonfire);
+					var index=structureList.indexOf(bonfire);
+					builder.build(bonfire,30);
+				});
+			},
+			buildWoodenStorage:function(){
+				$('#buildWoodenStorage').click(function(){
+					var index=structureList.indexOf(woodenStorage);
+					builder.build(structureList[index],50);
 				});
 			},
 			dropObjectFromBackpack:function(){
@@ -280,17 +322,9 @@
 						quantity=parseInt($(this).attr('data-quantity')),
 						itemToDrop=helpers.getItemFromBackpack(itemToDropId);
 						
-						//Restore quantity
-						//if there are less elements then dropping, restore only quantiity of elements
-						if(quantity>itemToDrop.quantity){
-								backpack.capacity+=itemToDrop.quantity*itemToDrop.weight;
-						}
-						else{
-								backpack.capacity+=quantity*itemToDrop.weight;
-						}
 						itemToDrop.removeFromBackpack(quantity);
 						
-						helpers.message(itemToDrop.name+' dropped');
+						
 						
 						gui.updateBackpack();
 						bind.rebind();
@@ -320,7 +354,15 @@
 					}
 				}
 				return false;
-			}
+			},
+			searchForStructureIndex:function(structureId){	//function returns index in array structureList
+				for(var index in structureList){
+							if(structureList[index].structureId===structureId){
+									return index;
+							}
+					}
+					return false;
+			},
 		};	
 		
 		//GUI FUNCTIONS
@@ -329,6 +371,7 @@
 				this.updateBackpack();
 				this.updateWorldStatus();
 				this.updatePlayerStatus();
+				this.updatePlayerStructures();
 			},
 			updateBackpack:function(){
 
@@ -356,6 +399,14 @@
 			updatePlayerStatus:function(){
 				$('#player-hp span').html(playerStatus.hp);
 				$('#player-stamina span').html(playerStatus.stamina);
+			},
+			updatePlayerStructures:function(){
+				var _=$('.structures-list');
+				_.find('li').remove();	//remove all structures
+
+				for(var index in playerStructures){
+					_.append('<li>'+playerStructures[index]+'</li>');	//append all
+				}
 			}
 		};	
 

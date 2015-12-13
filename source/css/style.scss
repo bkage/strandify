@@ -12,6 +12,9 @@ button{
 	border:1px solid #fff;
 	cursor:pointer;
 }
+body{
+	font-family: 'Open Sans', sans-serif;
+}
 .container{
 	margin-left:140px;
 	&:after{
@@ -56,19 +59,56 @@ table{
 	width:400px;
 	margin:10px 0;
 	display:block;
+	float:left;
 }
 .world-status{
-	height:131px;
+	margin-top:0;
+	width:250px; 
+	h2{
+		display:inline-block;
+	}
+	ul{
+		display:inline-block;
+		margin-left:15px;
+		li{
+
+		}
+	}
+}
+.backpack{
+	clear:left;
+	.capacity{
+		margin:10px 0;
+		font-size:18px;
+		span{
+			display:inline-block;
+			margin-left:15px;
+			font-weight:700;
+		}
+	}
+	table{
+		margin-top:15px;
+		tr{
+			th{
+				padding:15px;
+			}
+		}
+	}
+}
+.structures{
+	width:250px;
+	ul{
+		li{
+			padding-left:15px;
+			font-weight:700;
+		}
+	}
 }
 .game-options{
 	width:100%;
 	display:none;
 	background-color:#1f1f1f;
 	padding:10px;
-}
-.game-options-drop{
-	cursor:pointer;
-	font-weight:700;
 }
 .actions{
 	position:fixed;
@@ -79,6 +119,18 @@ table{
 	width:150px;
 	padding-bottom:100%;
 	margin-bottom:-100%;
+	.game-options-drop{
+		cursor:pointer;
+		font-weight:700;
+	}
+	button{
+		margin:5px 0;
+		width:100%;
+		padding:10px 0;
+	}
+	p{
+		margin:10px 0;
+	}
 }
 .player-status{
 	width:400px;

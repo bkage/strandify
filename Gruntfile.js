@@ -43,7 +43,7 @@ module.exports=function(grunt){
 		watch: {
 			js: {
 				files: [ 'source/index.html','source/js/*.js','source/css/*.scss'],
-				tasks:['concat','copy','sass'],
+				tasks:['copy','sass','concat'],
 				options:{
 					livereload:true	,
 					spawn:false
@@ -60,6 +60,10 @@ module.exports=function(grunt){
 		    	'bower_components/jquery.cookie/jquery.cookie.js'],
 		    	dest:'dist/js/plugins.js',
 		    },
+		    css:{
+		    	src:['dist/css/*.css'],
+		    	dest:'dist/style.css',
+		    }
 		}
 	});
 	
